@@ -52,7 +52,7 @@ app.use(
     saveUninitialized: false,
     secret: process.env.EXPRESS_SESSION_SECRET,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URL,
+      mongoUrl: process.env.MONGODB_ATLAS_URI,
       collectionName: "sessions",
       ttl: 14 * 24 * 60 * 60, // session lifetime in seconds (14 days here)
     }),
