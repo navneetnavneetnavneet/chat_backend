@@ -36,7 +36,7 @@ app.use(limiter);
 // cors and helmet for security middlewares
 app.use(
   cors({
-    origin: [process.env.REACT_BASE_URL, "http://localhost:5173"],
+    origin: [process.env.REACT_BASE_URL],
     credentials: true,
   })
 );
