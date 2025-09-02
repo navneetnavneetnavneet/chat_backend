@@ -13,6 +13,7 @@ const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const MongoStore = require("connect-mongo");
+const path = require("path");
 
 const port = process.env.PORT || 3000;
 
@@ -79,6 +80,12 @@ app.use("/api/users/", userRouter);
 app.use("/api/chats/", chatRouter);
 app.use("/api/messages/", messageRouter);
 app.use("/api/status/", statusRouter);
+
+app.use(express.static(__dirname, path.join("public")));
+
+app.get("*name", (req, res) => {
+  res.sendFile(path.join("./public/index.html"));
+});
 
 // error-handling
 app.all("*", (req, res, next) => {
