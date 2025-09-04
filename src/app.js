@@ -80,9 +80,9 @@ app.get("*name", (req, res) => {
 })
 
 // error-handling
-app.all("*", (req, res, next) => {
-  return next(new ErrorHandler(`Requested URL Not Found ${req.url}`, 404));
-});
+// app.all("*", (req, res, next) => {
+//   return next(new ErrorHandler(`Requested URL Not Found ${req.url}`, 404));
+// });
 app.use(generateError);
 
 module.exports = app;
