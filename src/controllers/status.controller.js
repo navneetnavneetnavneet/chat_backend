@@ -6,7 +6,7 @@ const statusModel = require("../models/status.model");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const userModel = require("../models/user.model");
-const imagekit = require("../config/imagekit.config").initImagekit();
+const imagekit = require("../services/imagekit.service").initImagekit();
 
 module.exports.uploadStatus = catchAsyncError(async (req, res, next) => {
   if (req.files && req.files.media) {

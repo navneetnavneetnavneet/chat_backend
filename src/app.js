@@ -1,8 +1,5 @@
-require("dotenv").config({
-  path: "./.env",
-});
 const express = require("express");
-const { app, server } = require("./socket/socket");
+const app = express();
 const logger = require("morgan");
 const ErrorHandler = require("./utils/ErrorHandler");
 const { generateError } = require("./middlewares/errors.middleware");
@@ -15,24 +12,19 @@ const helmet = require("helmet");
 const MongoStore = require("connect-mongo");
 const path = require("path");
 
-const port = process.env.PORT || 3000;
-
-const userRouter = require("./routes/user.routes");
-const chatRouter = require("./routes/chat.routes");
-const messageRouter = require("./routes/message.routes");
-const statusRouter = require("./routes/status.routes");
-
-// database connection
-require("./config/db.config").connectDatabase();
+const userRoutes = require("./routes/user.routes");
+const chatRoutes = require("./routes/chat.routes");
+const messageRoutes = require("./routes/message.routes");
+const statusRoutes = require("./routes/status.routes");
 
 // Apply rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per 15 minutes
-  message: "Too many requests from this IP, Please try again later.",
-});
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // limit each IP to 100 requests per 15 minutes
+//   message: "Too many requests from this IP, Please try again later.",
+// });
 
-app.use(limiter);
+// app.use(limiter);
 
 // cors and helmet for security middlewares
 app.use(
@@ -73,19 +65,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // logger
-app.use(logger("tiny"));
+app.use(logger("dev"));
 
 // routes
-app.use("/api/users/", userRouter);
-app.use("/api/chats/", chatRouter);
-app.use("/api/messages/", messageRouter);
-app.use("/api/status/", statusRouter);
-
-app.use(express.static(__dirname, path.join("public")));
-
-app.get("*name", (req, res) => {
-  res.sendFile(path.join("./public/index.html"));
-});
+app.use("/api/users/", userRoutes);
+app.use("/api/chats/", chatRoutes);
+app.use("/api/messages/", messageRoutes);
+app.use("/api/status/", statusRoutes);
 
 // error-handling
 app.all("*", (req, res, next) => {
@@ -93,7 +79,4 @@ app.all("*", (req, res, next) => {
 });
 app.use(generateError);
 
-// creating server
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+module.exports = app;

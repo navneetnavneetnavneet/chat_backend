@@ -8,7 +8,7 @@ const path = require("path");
 const messageModel = require("../models/message.model");
 const chatModel = require("../models/chat.model");
 const userModel = require("../models/user.model");
-const imagekit = require("../config/imagekit.config").initImagekit();
+const imagekit = require("../services/imagekit.service").initImagekit();
 
 module.exports.sendMessage = catchAsyncError(async (req, res, next) => {
   const { chatId, content, media } = req.body;

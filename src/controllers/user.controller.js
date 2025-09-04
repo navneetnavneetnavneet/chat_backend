@@ -6,11 +6,11 @@ const blacklistTokenModel = require("../models/blacklistToken.model");
 const ErrorHandler = require("../utils/ErrorHandler");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const { sendEmail } = require("../utils/SendEmail");
+const { sendEmail } = require("../services/nodemailer.service");
 const { sendToken } = require("../utils/SendToken");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
-const imagekit = require("../config/imagekit.config").initImagekit();
+const imagekit = require("../services/imagekit.service").initImagekit();
 const crypto = require("crypto");
 
 module.exports.sendOTP = catchAsyncError(async (req, res, next) => {
