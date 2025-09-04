@@ -73,6 +73,12 @@ app.use("/api/chats/", chatRoutes);
 app.use("/api/messages/", messageRoutes);
 app.use("/api/status/", statusRoutes);
 
+app.use(express.static(path.join(__dirname, "../public")));
+
+app.get("*name", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"))
+})
+
 // error-handling
 app.all("*", (req, res, next) => {
   return next(new ErrorHandler(`Requested URL Not Found ${req.url}`, 404));
